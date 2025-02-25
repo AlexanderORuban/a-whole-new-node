@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Traversals {
   public static void main(String[] args) {
@@ -39,5 +42,75 @@ public class Traversals {
     child3_1.children = new ArrayList<>();
     child3_1.children.add(child3_1_1);
     child3_1.children.add(child3_1_2);
+
+    System.out.println("Pre-Order traversal of non-binary search tree:");
+    preOrder(root);
+    System.out.println();
+
+    System.out.println("Post-Order traversal of non-binary search tree:");
+    postOrder(root);
+    System.out.println();
+
+    Map<Integer, List<Integer>> parentToChild = new HashMap<>();
+    parentToChild.put(88, List.of(17, 58, 33));
+    parentToChild.put(24, List.of(83, 6));
+    parentToChild.put(58, List.of(73));
+    parentToChild.put(33, List.of(24, 61, 12));
+    parentToChild.put(12, List.of());
+    parentToChild.put(5, List.of());
+    parentToChild.put(99, List.of());
+    parentToChild.put(61, List.of());
+    parentToChild.put(83, List.of());
+    parentToChild.put(73, List.of());
+    parentToChild.put(6, List.of());
+    parentToChild.put(17, List.of(5, 99));
+
+    System.out.println("Pre-Order traversal of map:");
+    preOrderMap(parentToChild, 88);
+  }
+
+  public static <T> void preOrder(Node<T> node) {
+    if (node == null) return;
+    
+    System.out.println(node.value);
+
+    // if (node.children == null) return;
+
+    // for (Node<T> child : node.children) {
+    //   preOrder(child);
+    // }
+
+    for (var child : node.children) {
+      preOrder(child);
+    }
+  }
+
+  public static <T> void postOrder(Node<T> node) {
+    if (node == null) return;
+
+    for (var child : node.children) {
+      postOrder(child);
+    }
+
+    System.out.println(node.value);
+  }
+
+  public static void preOrderMap(Map<Integer, List<Integer>> parentToChild, int current) {
+    // Base case:
+    // map is null or current non in map return
+    // print current
+    // children = parentToChild.get(current)
+    // for each child in children
+    // recurse on child
+
+    if (parentToChild == null || !parentToChild.containsKey(current)) return;
+    
+    System.out.println(current);
+
+    List<Integer> children = parentToChild.get(current);
+
+    for (int child : children) {
+      preOrderMap(parentToChild, child);
+    }
   }
 }
